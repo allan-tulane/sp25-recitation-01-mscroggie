@@ -1,6 +1,7 @@
 """
 CMPS 2200  Recitation 1
 """
+from types import new_class
 
 ### the only imports needed are here
 import tabulate
@@ -33,6 +34,20 @@ def _binary_search(mylist, key, left, right):
 	  index of key in mylist, or -1 if not present.
 	"""
 	### TODO
+	if right >= left:
+
+		i = (left+right)//2
+		if mylist[i] == key:
+			return i
+		elif mylist[i] > key:
+			return _binary_search(mylist, key, left, i-1)
+		elif mylist[i] < key:
+			return _binary_search(mylist,key, i+1, right)
+	else: return -1
+
+
+
+
 
 	###
 
@@ -58,6 +73,11 @@ def time_search(search_fn, mylist, key):
 	  search function on this input.
 	"""
 	### TODO
+	start_time = time.time()
+	search_fn(mylist, key)
+	end_time= time.time()
+	runtime = end_time - start_time
+	return runtime
 
 	###
 
@@ -77,8 +97,22 @@ def compare_search(sizes=[1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7]):
 	  for each method to run on each value of n
 	"""
 	### TODO
+	runtimes=[]
 
-	###
+	for size in sizes:
+		i = 0
+		new_list= []
+		while i <= size-1:
+			new_list.append(i)
+			i+=1
+		linear_search_time = time_search(linear_search,new_list,-1)
+		binary_search_time = time_search(binary_search,new_list,-1)
+		runtimes.append((size,linear_search_time, binary_search_time))
+	return runtimes
+
+
+
+###
 
 def print_results(results):
 	""" done """
